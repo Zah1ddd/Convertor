@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Currency Converter</title>
+    <style>
+      .card {
+        width: 300px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+        text-align: center;
+      }
+      select,
+      input,
+      button {
+        display: block;
+        margin: 10px auto;
+        padding: 8px;
+        width: 80%;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      button {
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      p {
+        font-size: 1.2em;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Currency Converter</h1>
+
+      <label for="fromCurrency">From Currency:</label>
+      <select id="fromCurrency">
+        <option value="USD">United States Dollar (USD)</option>
+        <option value="EUR">Euro (EUR)</option>
+        <option value="JPY">Japanese Yen (JPY)</option>
+      </select>
+
+      <label for="toCurrency">To Currency:</label>
+      <select id="toCurrency">
+        <option value="USD">United States Dollar (USD)</option>
+        <option value="EUR">Euro (EUR)</option>
+        <option value="JPY">Japanese Yen (JPY)</option>
+      </select>
+
+      <label for="amount">Amount:</label>
+      <input type="number" id="amount" placeholder="Enter amount" />
+
+      <button onclick="convertCurrency()">Convert</button>
+
+      <p>Result: <span id="result"></span></p>
+    </div>
+
+    <script>
+      function convertCurrency() {
+        const fromCurrency = document.getElementById("fromCurrency").value;
+        const toCurrency = document.getElementById("toCurrency").value;
+        const amount = parseFloat(document.getElementById("amount").value);
+
+        // Replace these hardcoded exchange rates with actual rates from an API
+        const exchangeRates = {
+          USD: {
+            EUR: 0.85,
+            JPY: 114.53,
+          },
+          EUR: {
+            USD: 1.18,
+            JPY: 135.03,
+          },
+          JPY: {
+            USD: 0.0087,
+            EUR: 0.0074,
+          },
+        };
+
+        if (isNaN(amount)) {
+          alert("Please enter a valid amount.");
+          return;
+        }
+
+        if (fromCurrency === toCurrency) {
+          document.getElementById("result").textContent =
+            amount + " " + toCurrency;
+          return;
+        }
+
+        if (
+          exchangeRates[fromCurrency] &&
+          exchangeRates[fromCurrency][toCurrency]
+        ) {
+          const convertedAmount =
+            amount * exchangeRates[fromCurrency][toCurrency];
+          document.getElementById("result").textContent =
+            convertedAmount.toFixed(2) + " " + toCurrency;
+        } else {
+          alert("Conversion is not supported for the selected currencies.");
+        }
+      }
+    </script>
+  </body>
+</html>
